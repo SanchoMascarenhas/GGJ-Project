@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour {
     GameObject ForceBar;
     public Quaternion rot;
     public float waveVelocity;
+    public float powerWaveVelocity;
     public float force;
     public float breath;
     bool charging = false;
@@ -19,7 +20,8 @@ public class PlayerMovement : MonoBehaviour {
 
     void Start()
     {
-        waveVelocity = 5.0f;
+        powerWaveVelocity = 4.0f;
+        waveVelocity = 7.5f;
         force = 0.0f;
         charging = false;
         attributes = GetComponent<PlayerAttributes>();
@@ -56,17 +58,17 @@ public class PlayerMovement : MonoBehaviour {
         {
             if (force > 1.0f)
             {
-                GameObject PowerScreamWave = (GameObject)Instantiate(PowerScreamPrefab, transform.position, rot * Quaternion.Euler(0, 0, 90));
-                Vector2 shootDir = (mousePosition - transform.position).normalized;
-                PowerScreamWave.GetComponent<Rigidbody2D>().velocity = waveVelocity * shootDir;
+                GameObject PowerScreamWave = (GameObject)Instantiate(PowerScreamPrefab, transform.position.normalized, rot * Quaternion.Euler(0, 0, 90));
+                Vector2 shootDir = (mousePosition - transform.position.normalized);
+                PowerScreamWave.GetComponent<Rigidbody2D>().velocity = (waveVelocity * shootDir).normalized;
                 attributes.ConsumeBreath(2);
                 force = 0.0f;
             }
             else
             {
-                GameObject screamWave = (GameObject)Instantiate(ScreamPrefab, transform.position, rot * Quaternion.Euler(0, 0, 90));
-                Vector2 shootDir = (mousePosition - transform.position).normalized;
-                screamWave.GetComponent<Rigidbody2D>().velocity = waveVelocity * shootDir;
+                GameObject screamWave = (GameObject)Instantiate(ScreamPrefab, transform.position.normalized, rot * Quaternion.Euler(0, 0, 90));
+                Vector2 shootDir = (mousePosition - transform.position);
+                screamWave.GetComponent<Rigidbody2D>().velocity = (waveVelocity * shootDir.normalized);
                 attributes.ConsumeBreath(1);
                 force = 0.0f;
             }
@@ -74,6 +76,16 @@ public class PlayerMovement : MonoBehaviour {
             charging = false;
         }
         
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "Shockwave")
+        {
+            this.GetComponent<PlayerAttributes>().TakeDamage(1);
+            Destroy(collision.gameObject);
+        }
+
     }
 
     void Scream()
