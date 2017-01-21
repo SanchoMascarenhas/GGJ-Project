@@ -10,13 +10,16 @@ public class PlayerAttributes : MonoBehaviour {
     public float currentHealth;
     public float currentBreath;
     public Slider breathSlider;
+    public Slider healthSlider;
+    public Image fill;
 
 	// Use this for initialization
 	void Start () {
         currentBreath = maxBreath;
         currentHealth = maxHealth;
         breathSlider.value = maxBreath;
-	}
+        healthSlider.value = maxHealth;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -30,11 +33,20 @@ public class PlayerAttributes : MonoBehaviour {
             currentBreath = 0;
         }
         breathSlider.value = currentBreath;
+        if(currentBreath < 2.0f)
+        {
+            fill.color = new Color(1, 0, 0);
+        }
+        else
+        {
+            fill.color = new Color(1, 0.8f, 0);
+        }
     }
 
     public void TakeDamage(float amount)
     {
         currentHealth -= amount;
+        healthSlider.value = currentHealth;
     }
 
     public void ConsumeBreath(float amount)
