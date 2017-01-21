@@ -87,9 +87,4 @@ public class PlayerMovement : MonoBehaviour {
         }
 
     }
-
-    void Scream()
-    {
-
-    }
 }

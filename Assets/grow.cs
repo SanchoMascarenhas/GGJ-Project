@@ -53,6 +53,10 @@ public class grow : MonoBehaviour {
         transform.localScale = new Vector3(size, size, 1);
         color.a -= disappearFactor;
         waveRenderer.material.color = color;
+        if (color.a <= 25)
+        {
+            Destroy(this.gameObject);
+        }
     }
     
 }
