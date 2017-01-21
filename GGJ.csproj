@@ -81,11 +81,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\LifeSpan.cs" />
     <Compile Include="Assets\PlayerAttributes.cs" />
     <Compile Include="Assets\PlayerMovement.cs" />
     <Compile Include="Assets\ShockwaveSpawner.cs" />
     <Compile Include="Assets\grow.cs" />
     <Compile Include="Assets\movement.cs" />
+    <Compile Include="Assets\rockFall.cs" />
+    <Compile Include="Assets\screamControl.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Standard Assets\Cameras\CameraGuidelines.txt" />
