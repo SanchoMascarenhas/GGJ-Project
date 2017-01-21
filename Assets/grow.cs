@@ -28,6 +28,6 @@ public class grow : MonoBehaviour {
         transform.localScale = new Vector3(size, size, 1);
         Color color = waveRenderer.material.color;
         color.a -= growthFactor;
-        waveRenderer.material.color = color;
+        //waveRenderer.material.color = color;
 	}
 }

@@ -81,7 +81,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\PlayerAttributes.cs" />
     <Compile Include="Assets\PlayerMovement.cs" />
+    <Compile Include="Assets\grow.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Standard Assets\Cameras\CameraGuidelines.txt" />
