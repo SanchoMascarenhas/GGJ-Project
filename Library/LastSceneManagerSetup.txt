@@ -1,4 +1,0 @@
-sceneSetups:
-- path: Assets/GGJ project.unity
-  isLoaded: 1
-  isActive: 1
