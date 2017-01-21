@@ -76,6 +76,16 @@ public class PlayerMovement : MonoBehaviour {
         
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag == "Shockwave")
+        {
+            this.GetComponent<PlayerAttributes>().TakeDamage(1);
+            Destroy(collision.gameObject);
+        }
+
+    }
+
     void Scream()
     {
 
