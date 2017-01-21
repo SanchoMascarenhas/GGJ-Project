@@ -1,10 +1,16 @@
 fileFormatVersion: 2
 guid: a2ccd149752fc46419a10a0b4f4800e0
-timeCreated: 1485001522
+timeCreated: 1485040873
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - shockwavePrefab: {fileID: 1746117963889544, guid: baceac34cfc30cd48b6a1b8399e51330,
+      type: 2}
+  - shadowPrefab: {fileID: 1475058000353788, guid: 7b63f0eda925f10448d3f1882787a31c,
+      type: 2}
+  - rockPrefab: {fileID: 1970766192041080, guid: 42cdd43fd4805ec44837b2c5481e4326,
+      type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

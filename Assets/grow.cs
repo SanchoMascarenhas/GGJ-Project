@@ -18,7 +18,7 @@ public class grow : MonoBehaviour {
         waveRenderer = transform.GetComponent<SpriteRenderer>();
         color = waveRenderer.material.color;
         growthFactor = 0.1f;
-        disappearFactor = 0.007f;
+        disappearFactor = 0.005f;
         InvokeRepeating("TimedUpdate", 0, 0.016667f);
     }
 
@@ -35,15 +35,6 @@ public class grow : MonoBehaviour {
             collidingObject.GetComponent<PlayerAttributes>().TakeDamage(1);
             Destroy(this.gameObject);
         }
-        if (collidingObject.tag == "Scream")
-        {
-            Destroy(collidingObject.gameObject);
-            Destroy(this.gameObject);
-        }
-        if (collidingObject.tag == "PowerScream")
-        {
-            Destroy(this.gameObject);
-        }
 
     }
 
@@ -53,7 +44,7 @@ public class grow : MonoBehaviour {
         transform.localScale = new Vector3(size, size, 1);
         color.a -= disappearFactor;
         waveRenderer.material.color = color;
-        if (color.a <= 25)
+        if (color.a <= 0.25)
         {
             Destroy(this.gameObject);
         }
