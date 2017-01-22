@@ -18,11 +18,18 @@ public class PlayerScreaming : MonoBehaviour
     float speed = 4.0f;
     bool charging = false;
     const float MINIMUM_BREATH_FORCE = 1.5f;
-    const float MINIMUM_BREATH = 0.3f;
+    const float MINIMUM_BREATH = 1f;
     float timer =  0.0f;
     const float MINIMUM_BREATH_FORCE_TIME = 1.5f;
     SpriteRenderer renderer;
+
+    public Sprite idle;
+    public Sprite charge;
+    public Sprite unleashNormal;
+    public Sprite unleashPowerful;
     Color originalColor;
+    float screamTimer = 0.0f;
+    float SCREAM_TIMER_SPRITE_CHANGE = 1.0f;
 
     PlayerAttributes attributes;
     private float duration = 1.5f;
@@ -51,12 +58,14 @@ public class PlayerScreaming : MonoBehaviour
         {
             if (timer >= MINIMUM_BREATH_FORCE_TIME)
             {
+                renderer.sprite = unleashPowerful;
                 GameObject PowerScreamWave = (GameObject)Instantiate(PowerScreamPrefab, transform.position, rot * Quaternion.Euler(0, 0, 90));
                 Vector2 shootDir = (mousePosition - transform.position);
                 PowerScreamWave.GetComponent<Rigidbody2D>().velocity = (waveVelocity * shootDir.normalized);
                 attributes.ConsumeBreath(2);
             }
             else {
+                renderer.sprite = unleashNormal;
                 GameObject screamWave = (GameObject)Instantiate(ScreamPrefab, transform.position, rot * Quaternion.Euler(0, 0, 90));
                 Vector2 shootDir = (mousePosition - transform.position);
                 screamWave.GetComponent<Rigidbody2D>().velocity = (waveVelocity * shootDir.normalized);
@@ -64,9 +73,11 @@ public class PlayerScreaming : MonoBehaviour
             }
             timer = 0.0f;
             renderer.color = originalColor;
+            renderer.sprite = idle;
         }
         if (Input.GetMouseButton(0) && attributes.currentBreath >= MINIMUM_BREATH_FORCE)
         {
+            renderer.sprite = charge;
             timer += Time.deltaTime;
             ChangeColor();
         }
@@ -74,6 +85,6 @@ public class PlayerScreaming : MonoBehaviour
 
     void ChangeColor()
     {
-        renderer.color = Color.Lerp(originalColor, Color.blue, timer/duration);
+        renderer.color = Color.Lerp(originalColor, new Color(0,0,102), timer/duration);
     }
 }
