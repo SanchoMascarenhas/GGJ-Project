@@ -3,116 +3,46 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
-
-    public GameObject ScreamPrefab;
-    public GameObject PowerScreamPrefab;
-    public GameObject ForcePrefab;
-    public GameObject BreathPrefab;
+    
     GameObject ForceBar;
     public Quaternion rot;
-    public float waveVelocity;
-    public float powerWaveVelocity;
-    public float force;
-    public float breath;
     float speed = 4.0f;
-    bool charging = false;
+    Vector3 movement;
+    Rigidbody2D playerRigidbody;
 
     PlayerAttributes attributes;
 
     void Start()
     {
-        powerWaveVelocity = 4.0f;
-        waveVelocity = 7.5f;
-        force = 0.0f;
-        charging = false;
+        playerRigidbody = GetComponent<Rigidbody2D>();
         attributes = GetComponent<PlayerAttributes>();
     }
 
-	void Update()
+    void FixedUpdate()
     {
-        var mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        rot = Quaternion.LookRotation(transform.position - mousePosition, Vector3.forward);
-        Vector3 barPos;
+        // Store the input axes.
+        float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
 
-        transform.rotation = rot;
-        transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
-        GetComponent<Rigidbody2D>().angularVelocity = 0;
+        // Move the player around the scene.
+        Move(h, v);
+    }
 
-        if (!charging)
-        {
-            var move = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
-            var result = transform.position + move * speed * Time.deltaTime;
+    void Move(float h, float v)
+    {
+        // Set the movement vector based on the axis input.
+        movement.Set(h, v, 0f);
 
-            if (result.x > 21)
-            {
-                result.x = 21;
-            }
-            if (result.x < -21)
-            {
-                result.x = -21;
-            }
-            if (result.y > 8)
-            {
-                result.y = 8;
-            }
-            if (result.y < -8)
-            {
-                result.y = -8;
-            }
+        // Normalise the movement vector and make it proportional to the speed per second.
+        movement = movement.normalized * speed * Time.deltaTime;
 
-
-            transform.position = result;
-        }
-
-        if (Input.GetButton("Fire1") && attributes.currentBreath >= 2)
-        {
-            if (!charging)
-            {
-                barPos = new Vector3(transform.position.x, transform.position.y - 0.8f, 0);
-                ForceBar = (GameObject)Instantiate(ForcePrefab, barPos, Quaternion.Euler(0,0,0));
-                ForceBar.transform.GetComponent<Renderer>().material.color = new Color(1, 1, 0);
-                charging = true;
-            }
-            
-            if (force <= 1.0f)
-            {
-                force += Time.deltaTime;
-                ForceBar.transform.GetComponent<Renderer>().transform.localScale = new Vector3(force, 0.3f, 0);
-                ForceBar.transform.GetComponent<Renderer>().material.color = new Color(1, 1 - force, 0);
-            }
-        }
-
-
-        if (Input.GetButtonUp("Fire1"))
-        {
-            if (attributes.currentBreath >= 0.5f)
-            {
-                if (force > 1.0f)
-                {
-                    GameObject PowerScreamWave = (GameObject)Instantiate(PowerScreamPrefab, transform.position, rot * Quaternion.Euler(0, 0, 90));
-                    Vector2 shootDir = (mousePosition - transform.position.normalized);
-                    PowerScreamWave.GetComponent<Rigidbody2D>().velocity = (waveVelocity * shootDir).normalized;
-                    attributes.ConsumeBreath(2);
-                    force = 0.0f;
-                }
-                else
-                {
-                    GameObject screamWave = (GameObject)Instantiate(ScreamPrefab, transform.position, rot * Quaternion.Euler(0, 0, 90));
-                    Vector2 shootDir = (mousePosition - transform.position);
-                    screamWave.GetComponent<Rigidbody2D>().velocity = (waveVelocity * shootDir.normalized);
-                    attributes.ConsumeBreath(1);
-                    force = 0.0f;
-                }
-                Destroy(ForceBar);
-                charging = false;
-            }
-        }
-        
+        // Move the player to it's current position plus the movement.
+        playerRigidbody.MovePosition(transform.position + movement);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "Shockwave" || collision.tag == "Rock")
+        if(collision.tag == "Shockwave" /*|| collision.tag == "Rock"*/)
         {
             this.GetComponent<PlayerAttributes>().TakeDamage(1);
             Destroy(collision.gameObject);
