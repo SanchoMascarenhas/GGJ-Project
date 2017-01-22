@@ -33,6 +33,7 @@ public class grow : MonoBehaviour {
         if(collidingObject.tag == "Player")
         {
             collidingObject.GetComponent<PlayerAttributes>().TakeDamage(1);
+            MusicPlayer.thisInstance.PlaySound("damage");
             Destroy(this.gameObject);
         }
 

@@ -82,8 +82,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\LifeSpan.cs" />
+    <Compile Include="Assets\LoadSceneOnClick.cs" />
+    <Compile Include="Assets\MusicPlayer.cs" />
+    <Compile Include="Assets\OnClickQuit.cs" />
     <Compile Include="Assets\PlayerAttributes.cs" />
     <Compile Include="Assets\PlayerMovement.cs" />
+    <Compile Include="Assets\PlayerScreaming.cs" />
     <Compile Include="Assets\ShockwaveSpawner.cs" />
     <Compile Include="Assets\grow.cs" />
     <Compile Include="Assets\movement.cs" />

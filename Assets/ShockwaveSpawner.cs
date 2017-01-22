@@ -22,15 +22,88 @@ public class ShockwaveSpawner : MonoBehaviour {
     public const float SPAWN_HEIGHT = 15f;
     public const float FALL_SPEED = 7.5f;
 
+    string clip = null;
+    float speed = 3f;
+
     // Use this for initialization
     void Start () {
-        InvokeRepeating("TimedUpdate", 0, 1);
+        Debug.Log("cenas");
+        Intro();
+        Invoke("Upbeat", 3);
+        
+        //Play easy
+        Invoke("Play", 4);
+        Invoke("Upbeat", 111);
+        Invoke("Downbeat", 128);
+        Invoke("UpbeatALittle", 138);
+
+        //Play medium
+        Invoke("Play", 139);
+        Invoke("Upbeat", 226);
+        Invoke("Downbeat", 239);
+        Invoke("UpbeatALittle", 249);
+
+        //Play hard
+        Invoke("Play", 250);
+        Invoke("Upbeat", 326);
+        Invoke("Downbeat", 338);
+        Invoke("UpbeatALittle", 347);
+
+        //Play impossible
+        InvokeRepeating("Play", 348, 120);
+        InvokeRepeating("Upbeat", 412, 120);
+        InvokeRepeating("Downbeat", 422, 120);
+        InvokeRepeating("UpbeatALittle", 428, 120);
+
     }
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
+    
+    void Intro() {
+        MusicPlayer.thisInstance.PlayMusic("start");
+    }
+
+    void Play() {
+            switch (clip)
+            {
+                case "180": clip = "220";
+                    break;
+                case "220": clip = "250";
+                    break;
+                case "250": clip = "300";
+                    break;
+                default:
+                    clip = "180";
+                    break;
+
+        }
+        MusicPlayer.thisInstance.PlayMusic(clip);
+    }
+
+    void Upbeat()
+    {
+        CancelInvoke("TimedUpdate");
+        speed /= 2f;
+        InvokeRepeating("TimedUpdate", 0, speed);
+    }
+
+    void UpbeatALittle()
+    {
+        CancelInvoke("TimedUpdate");
+        speed /= 1.25f;
+        InvokeRepeating("TimedUpdate", 0, speed);
+    }
+
+    void Downbeat()
+    {
+        CancelInvoke("TimedUpdate");
+        speed *= 1.5f;
+        InvokeRepeating("TimedUpdate", 0, speed);
+    }
+
 
     void TimedUpdate() {
 
@@ -77,6 +150,7 @@ public class ShockwaveSpawner : MonoBehaviour {
     {
         GameObject shockwave = (GameObject)Instantiate(shockwavePrefab, positionsForSpawn.Dequeue(), Quaternion.identity);
         Destroy(shadow.Dequeue());
+        MusicPlayer.thisInstance.PlaySound("rock");
     }
 
 

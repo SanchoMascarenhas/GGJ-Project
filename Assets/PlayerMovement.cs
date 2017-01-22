@@ -46,6 +46,7 @@ public class PlayerMovement : MonoBehaviour {
         {
             this.GetComponent<PlayerAttributes>().TakeDamage(1);
             Destroy(collision.gameObject);
+            MusicPlayer.thisInstance.PlaySound("damage");
         }
         else if(collision.tag == "Wall")
         {
