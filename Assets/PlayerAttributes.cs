@@ -13,6 +13,8 @@ public class PlayerAttributes : MonoBehaviour {
     public Slider healthSlider;
     public Image fill;
 
+
+
 	// Use this for initialization
 	void Start () {
         currentBreath = maxBreath;
@@ -23,6 +25,10 @@ public class PlayerAttributes : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if(currentHealth <= 0)
+        {
+            gameOver();
+        }
         currentBreath += 0.02f;
         if (currentBreath > 5)
         {
@@ -53,5 +59,10 @@ public class PlayerAttributes : MonoBehaviour {
     {
         currentBreath -= amount;
         breathSlider.value = currentBreath;
+    }
+
+    public void gameOver()
+    {
+
     }
 }
