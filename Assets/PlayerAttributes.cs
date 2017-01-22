@@ -23,7 +23,7 @@ public class PlayerAttributes : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        currentBreath += 0.005f;
+        currentBreath += 0.02f;
         if (currentBreath > 5)
         {
             currentBreath = 5;

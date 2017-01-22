@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class movement : MonoBehaviour {
 
+    float speed = 1.0f;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -11,6 +13,10 @@ public class movement : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+        
+
+        /** /
         if(Input.GetKeyDown(KeyCode.W)) {
             Vector3 pos = transform.position;
             pos.y += 1;
@@ -34,5 +40,6 @@ public class movement : MonoBehaviour {
             pos.x += 1;
             transform.position = pos;
         }
+    /**/
     }
 }
