@@ -13,7 +13,7 @@ public class PlayerAttributes : MonoBehaviour {
     public Slider healthSlider;
     public Image fill;
 
-
+    Rekt rektScript;
 
 	// Use this for initialization
 	void Start () {
@@ -21,6 +21,7 @@ public class PlayerAttributes : MonoBehaviour {
         currentHealth = maxHealth;
         breathSlider.value = maxBreath;
         healthSlider.value = maxHealth;
+        rektScript = GetComponent<Rekt>();
     }
 	
 	// Update is called once per frame
@@ -63,6 +64,7 @@ public class PlayerAttributes : MonoBehaviour {
 
     public void gameOver()
     {
-
+        Time.timeScale = 0;
+        rektScript.youGotRekt();
     }
 }

@@ -29,7 +29,7 @@ public class PlayerScreaming : MonoBehaviour
 
     void Start()
     {
-        renderer = this.gameObject.GetComponent<SpriteRenderer>();
+        renderer = gameObject.GetComponent<SpriteRenderer>();
         originalColor = renderer.color;
         powerWaveVelocity = 2.0f;
         waveVelocity = 7.5f;
