@@ -21,11 +21,16 @@ public class PlayerScreaming : MonoBehaviour
     const float MINIMUM_BREATH = 0.3f;
     float timer =  0.0f;
     const float MINIMUM_BREATH_FORCE_TIME = 1.5f;
+    SpriteRenderer renderer;
+    Color originalColor;
 
     PlayerAttributes attributes;
+    private float duration = 1.5f;
 
     void Start()
     {
+        renderer = this.gameObject.GetComponent<SpriteRenderer>();
+        originalColor = renderer.color;
         powerWaveVelocity = 2.0f;
         waveVelocity = 7.5f;
         force = 0.0f;
@@ -42,7 +47,7 @@ public class PlayerScreaming : MonoBehaviour
         transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
         GetComponent<Rigidbody2D>().angularVelocity = 0;
 
-        if (Input.GetButtonUp("Fire1") && attributes.currentBreath >= MINIMUM_BREATH)
+        if (Input.GetMouseButtonUp(0) && attributes.currentBreath >= MINIMUM_BREATH)
         {
             if (timer >= MINIMUM_BREATH_FORCE_TIME)
             {
@@ -58,10 +63,17 @@ public class PlayerScreaming : MonoBehaviour
                 attributes.ConsumeBreath(1);
             }
             timer = 0.0f;
+            renderer.color = originalColor;
         }
-        if (Input.GetButton("Fire1") && attributes.currentBreath >= MINIMUM_BREATH_FORCE)
+        if (Input.GetMouseButton(0) && attributes.currentBreath >= MINIMUM_BREATH_FORCE)
         {
             timer += Time.deltaTime;
+            ChangeColor();
         }
+    }
+
+    void ChangeColor()
+    {
+        renderer.color = Color.Lerp(originalColor, Color.blue, timer/duration);
     }
 }
