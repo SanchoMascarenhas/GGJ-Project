@@ -28,6 +28,7 @@ public class PlayerAttributes : MonoBehaviour {
 	void Update () {
         if(currentHealth <= 0)
         {
+            MusicPlayer.thisInstance.PlayMusic("end");
             gameOver();
         }
         currentBreath += 0.02f;

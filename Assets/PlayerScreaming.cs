@@ -29,7 +29,7 @@ public class PlayerScreaming : MonoBehaviour
     public Sprite unleashPowerful;
     Color originalColor;
     float screamTimer = 0.0f;
-    float SCREAM_TIMER_SPRITE_CHANGE = 1.0f;
+    float SCREAM_TIMER_SPRITE_CHANGE = 0.7f;
 
     PlayerAttributes attributes;
     private float duration = 1.5f;
@@ -47,6 +47,15 @@ public class PlayerScreaming : MonoBehaviour
 
     void Update()
     {
+        if (!charging)
+        {
+            screamTimer += Time.deltaTime;
+            if (screamTimer >= SCREAM_TIMER_SPRITE_CHANGE)
+            {
+                renderer.sprite = idle;
+                screamTimer = 0.0f;
+            }
+        }
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         rot = Quaternion.LookRotation(transform.position - mousePosition, Vector3.forward);
 
@@ -60,6 +69,7 @@ public class PlayerScreaming : MonoBehaviour
             {
                 renderer.sprite = unleashPowerful;
                 GameObject PowerScreamWave = (GameObject)Instantiate(PowerScreamPrefab, transform.position, rot * Quaternion.Euler(0, 0, 90));
+                MusicPlayer.thisInstance.PlaySound("powerScream");
                 Vector2 shootDir = (mousePosition - transform.position);
                 PowerScreamWave.GetComponent<Rigidbody2D>().velocity = (waveVelocity * shootDir.normalized);
                 attributes.ConsumeBreath(2);
@@ -67,18 +77,21 @@ public class PlayerScreaming : MonoBehaviour
             else {
                 renderer.sprite = unleashNormal;
                 GameObject screamWave = (GameObject)Instantiate(ScreamPrefab, transform.position, rot * Quaternion.Euler(0, 0, 90));
+                MusicPlayer.thisInstance.PlaySound("scream");
                 Vector2 shootDir = (mousePosition - transform.position);
                 screamWave.GetComponent<Rigidbody2D>().velocity = (waveVelocity * shootDir.normalized);
                 attributes.ConsumeBreath(1);
             }
             timer = 0.0f;
+            charging = false;
             renderer.color = originalColor;
-            renderer.sprite = idle;
         }
         if (Input.GetMouseButton(0) && attributes.currentBreath >= MINIMUM_BREATH_FORCE)
         {
             renderer.sprite = charge;
             timer += Time.deltaTime;
+            charging = true;
+            screamTimer = 0.0f;
             ChangeColor();
         }
     }

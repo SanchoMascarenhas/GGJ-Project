@@ -24,7 +24,8 @@ public class MusicPlayer : MonoBehaviour {
     public static MusicPlayer thisInstance;
 
     // Use this for initialization
-    void Start () {
+    void Awake () {
+        Time.timeScale = 1;
         thisInstance = this;
         thisInstance.hitTaken.loop = false;
         thisInstance.screams.loop = false;
